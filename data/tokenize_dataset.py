@@ -8,12 +8,10 @@ import datasets
 import transformers
 
 
-def read_jsonl(path):
-    # Manually open because .splitlines is different from iterating over lines
+def read_json(path):
     with open(path, "r") as f:
-        for line in f:
-            yield json.loads(line)
-
+        data = json.load(f)
+    return data
 
 def main():
     parser = argparse.ArgumentParser()
@@ -58,7 +56,9 @@ def main():
     # for elem in tqdm.tqdm(read_jsonl(args.jsonl_path)):
     #     all_tokenized.append(tokenizer.encode(elem["text"]))
 
-    for elem in tqdm.tqdm(read_jsonl(args.jsonl_path)):
+    
+
+    for elem in tqdm.tqdm(read_json(args.jsonl_path)):
         # create the prompt string
         instruction = elem["instruction"]
         if elem["input"] != "":
