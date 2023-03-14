@@ -14,6 +14,24 @@ from transformers.deepspeed import HfDeepSpeedConfig
 import deepspeed
 
 
+class ModifiedTrainer(Trainer):
+
+    def compute_loss(self, model, inputs, return_outputs=False):
+        return model(
+            input_ids=inputs["input_ids"],
+            attention_mask=torch.ones_like(inputs["input_ids"]),
+            labels=inputs["input_ids"],  # HF model does the slicing for us
+        ).loss
+
+
+def data_collator(features: list) -> dict:
+    return {
+        "input_ids": torch.stack([
+            torch.LongTensor(f["input_ids"])
+            for f in features
+        ])
+    }
+
 def train(config):
     try:
         tokenizer = LLaMATokenizer.from_pretrained(
@@ -39,10 +57,8 @@ def train(config):
     train_size = int(0.94 * len(dataset))
     train_dataset, val_dataset = random_split(dataset, [train_size, len(dataset) - train_size])
 
-    Trainer(model=model, args=training_args, train_dataset=train_dataset,
-            eval_dataset=val_dataset, data_collator=lambda data: {'input_ids': torch.stack([f[0] for f in data]),
-                                                                'attention_mask': torch.stack([f[1] for f in data]),
-                                                                'labels': torch.stack([f[2] for f in data])}).train()
+    ModifiedTrainer(model=model, args=training_args, train_dataset=train_dataset,
+            eval_dataset=val_dataset, data_collator=data_collator).train()
 
 
 
