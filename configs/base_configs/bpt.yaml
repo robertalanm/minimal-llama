@@ -1,11 +1,11 @@
-model_path: "facebook/galactica-6.7b"
-tokenizer_path: "facebook/galactica-6.7b"
+model_path: "/home/ubuntu/openRLHF/models/hf_7B"
+tokenizer_path: "/home/ubuntu/LLaMA/tokenizer.model"
 # model_path: "facebook/opt-30b" 
 # tokenizer_path: "facebook/opt-30b"
-save_dir: "../ckpts/bpt-online"
+save_dir: "../models/bpt-instruct"
 
 train_args:
-  output_dir: "../ckpts/bpt-online"
+  output_dir: "../models/bpt-instruct"
   dataset_path: "/home/ubuntu/minimal-llama/data/tokenized_data/"
   num_train_epochs: 16
   logging_steps: 100

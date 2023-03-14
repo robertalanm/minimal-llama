@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, random_split
-from transformers import AutoTokenizer, TrainingArguments, Trainer, AutoModelForCausalLM, IntervalStrategy
+from transformers import AutoTokenizer, TrainingArguments, Trainer, LLaMAForCausalLM, IntervalStrategy, LLaMATokenizer
 import json
 import argparse
 from utils import load_yaml, load_jsonl, freeze_bottom_causal_layers
@@ -17,13 +17,19 @@ import deepspeed
 
 def train(config):
     try:
-        tokenizer = AutoTokenizer.from_pretrained(config["tokenizer_path"])
+        tokenizer = LLaMATokenizer.from_pretrained(
+                config['tokenizer_path'],
+                padding_side="left",
+                )
     except ValueError:
-        tokenizer = AutoTokenizer.from_pretrained(config["tokenizer_path"], use_fast=False)
-    # tokenizer.pad_token = tokenizer.eos_token
+        tokenizer = LLaMATokenizer.from_pretrained(
+                config['tokenizer_path'],
+                padding_side="left",
+                use_fast=False,
+                )    # tokenizer.pad_token = tokenizer.eos_token
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     training_args = TrainingArguments(**config["train_args"])
-    model = AutoModelForCausalLM.from_pretrained(config["model_path"]).cuda()
+    model = LLaMAForCausalLM.from_pretrained(config["model_path"]).cuda()
 
 
 
