@@ -5,10 +5,9 @@ from torch.utils.data import Dataset, random_split
 from transformers import AutoTokenizer, TrainingArguments, Trainer, LLaMAForCausalLM, IntervalStrategy, LLaMATokenizer
 import json
 import argparse
-from utils import load_yaml, load_jsonl, freeze_bottom_causal_layers
-from rm_datasets import SFTDataset
+from minimal_llama.utils import load_yaml, load_jsonl, freeze_bottom_causal_layers
 import wandb
-from datasets import load_dataset, DownloadMode,load_from_disk
+from datasets import load_dataset, DownloadMode, load_from_disk
 from torch.utils.data import DataLoader
 
 from transformers.deepspeed import HfDeepSpeedConfig
