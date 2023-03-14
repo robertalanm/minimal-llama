@@ -6,7 +6,6 @@ save_dir: "../models/bpt-instruct"
 
 train_args:
   output_dir: "../models/bpt-instruct"
-  dataset_path: "/home/ubuntu/minimal-llama/data/tokenized_data/"
   num_train_epochs: 16
   logging_steps: 100
   save_strategy: "epoch"
@@ -23,6 +22,6 @@ train_args:
 
 
 # data_path: "Dahoas/sft-synthetic-hh"
-data_path: "robertmyers/bpt-static"
+dataset_path: "/home/ubuntu/minimal-llama/data/tokenized_data/"
 # data_path: "Dahoas/sft-hh-rlhf"
 

@@ -33,7 +33,7 @@ def train(config):
 
 
     print("Setup Data")
-    dataset = load_from_disk(config["train_args"]["dataset_path"])
+    dataset = load_from_disk(config["dataset_path"])
     print("Len data: ", len(dataset))
 
     train_size = int(0.94 * len(dataset))
