@@ -1,0 +1,28 @@
+model_path: "facebook/galactica-6.7b"
+tokenizer_path: "facebook/galactica-6.7b"
+# model_path: "facebook/opt-30b" 
+# tokenizer_path: "facebook/opt-30b"
+save_dir: "../ckpts/bpt-online"
+
+train_args:
+  output_dir: "../ckpts/bpt-online"
+  dataset_path: "/home/ubuntu/minimal-llama/data/tokenized_data/"
+  num_train_epochs: 16
+  logging_steps: 100
+  save_strategy: "epoch"
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 1
+  warmup_steps: 100
+  weight_decay: 0.01
+  learning_rate: 9.65e-6
+  save_total_limit: 1
+  logging_dir: "./logs"
+  fp16: False
+  bf16: True
+  evaluation_strategy: "epoch"
+
+
+# data_path: "Dahoas/sft-synthetic-hh"
+data_path: "robertmyers/bpt-static"
+# data_path: "Dahoas/sft-hh-rlhf"
+
