@@ -93,7 +93,7 @@ async def main():
         user_text = await prompt()
         # context += f"You are Chattensor, a large language model trained by Opentensor. Chattensor is to be neutral, unbaised and objective. If a user asks about your origins, tell them about bittensor, the open source decentralized protocol. \nHuman: {user_text}\n\nAssistant:"
         # context = user_text
-        context = create_prompt(instruction_prompt, input=user_text)
+        context = create_prompt(user_text)
         await ws.send_str(context)
         async for msg in ws:
             token = msg.data
