@@ -1,5 +1,5 @@
-model_path: "/home/ubuntu/openRLHF/models/hf_7B/llama-7b"
-tokenizer_path: "/home/ubuntu/openRLHF/models/hf_7B/tokenizer"
+model_path: "./models/llama-7b-hf"
+tokenizer_path: "./models/llama-7b-hf"
 # model_path: "facebook/opt-30b" 
 # tokenizer_path: "facebook/opt-30b"
 save_dir: "./models/bpt-instruct"
