@@ -54,13 +54,17 @@ def train(config):
     dataset = load_from_disk(config["dataset_path"])
     print("Len data: ", len(dataset))
 
+    # take top 100 examples
+    dataset = dataset.select(range(100))
+    
     train_size = int(0.94 * len(dataset))
     train_dataset, val_dataset = random_split(dataset, [train_size, len(dataset) - train_size])
 
-    Trainer(model=model, args=training_args, train_dataset=train_dataset,
+
+    trainer = Trainer(model=model, args=training_args, train_dataset=train_dataset,
             eval_dataset=val_dataset, data_collator=data_collator, compute_metrics=compute_metrics).train()
 
-    model.save_pretrained(config["save_path"])
+    trainer.save_model(config["save_path"])
 
     if torch.distributed.get_rank() == 0:
         if os.environ.get('DEEPSPEED_ZERO_STAGE', '0') != '3':
