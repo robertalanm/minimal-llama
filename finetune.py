@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, random_split
-from transformers import AutoTokenizer, TrainingArguments, Trainer, LLaMAForCausalLM, IntervalStrategy, LLaMATokenizer
+from transformers import DataCollatorForLanguageModeling, AutoTokenizer, TrainingArguments, Trainer, LLaMAForCausalLM, IntervalStrategy, LLaMATokenizer
 import json
 import argparse
 from minimal_llama.utils import load_yaml, load_jsonl, freeze_bottom_causal_layers
@@ -24,13 +24,11 @@ class ModifiedTrainer(Trainer):
         ).loss
 
 
-def data_collator(features: list) -> dict:
-    return {
-        "input_ids": torch.stack([
-            torch.LongTensor(f["input_ids"])
-            for f in features
-        ])
-    }
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)
+    return metric.compute(predictions=predictions, references=labels)
+
 
 def train(config):
     try:
@@ -48,7 +46,9 @@ def train(config):
     training_args = TrainingArguments(**config["train_args"])
     model = LLaMAForCausalLM.from_pretrained(config["model_path"]).cuda()
 
-
+    data_collator = DataCollatorForLanguageModeling(
+        tokenizer=tokenizer, mlm=False
+    )
 
     print("Setup Data")
     dataset = load_from_disk(config["dataset_path"])
@@ -57,8 +57,8 @@ def train(config):
     train_size = int(0.94 * len(dataset))
     train_dataset, val_dataset = random_split(dataset, [train_size, len(dataset) - train_size])
 
-    ModifiedTrainer(model=model, args=training_args, train_dataset=train_dataset,
-            eval_dataset=val_dataset, data_collator=data_collator).train()
+    Trainer(model=model, args=training_args, train_dataset=train_dataset,
+            eval_dataset=val_dataset, data_collator=data_collator, compute_metrics=compute_metrics).train()
 
     model.save_pretrained(config["save_path"])
 
