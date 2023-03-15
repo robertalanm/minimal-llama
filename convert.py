@@ -6,7 +6,7 @@ import torch
 def convert_deepspeed_checkpoint(model_path, model_name, model_ckpt):
     type_t = "causal"
 
-    model = LLaMAForCausalLM.from_pretrained(model_path)
+    model = LLaMAForCausalLM.from_pretrained("/home/ubuntu/openRLHF/models/hf_7B/llama-7b")
     tokenizer = LLaMATokenizer.from_pretrained('/home/ubuntu/openRLHF/models/hf_7B/tokenizer')
     fp32_model = load_state_dict_from_zero_checkpoint(model, os.path.join(model_path))
 
