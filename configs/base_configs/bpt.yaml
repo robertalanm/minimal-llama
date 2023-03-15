@@ -2,10 +2,10 @@ model_path: "/home/ubuntu/openRLHF/models/hf_7B/llama-7b"
 tokenizer_path: "/home/ubuntu/openRLHF/models/hf_7B/tokenizer"
 # model_path: "facebook/opt-30b" 
 # tokenizer_path: "facebook/opt-30b"
-save_dir: "../models/bpt-instruct"
+save_dir: "./models/bpt-instruct"
 
 train_args:
-  output_dir: "../models/bpt-instruct"
+  output_dir: "./models/bpt-instruct"
   num_train_epochs: 1
   logging_steps: 100
   save_strategy: "epoch"
