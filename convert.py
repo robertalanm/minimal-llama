@@ -21,7 +21,7 @@ def convert_deepspeed_checkpoint(model_path, model_name, model_ckpt):
 
 
 if __name__ == "__main__":
-    model_path = "../models/bpt-instruct/"
+    model_path = "/home/ubuntu/models/bpt-instruct/"
     model_name = "EleutherAI/gpt-j-6B"
     model_ckpt = "model-5000"
     convert_deepspeed_checkpoint(model_path, model_name, model_ckpt)
