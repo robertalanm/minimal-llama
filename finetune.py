@@ -64,7 +64,7 @@ def train(config):
 
 
     trainer = Trainer(model=model, args=training_args, train_dataset=train_dataset,
-            eval_dataset=val_dataset, data_collator=data_collator, compute_metrics=compute_metrics).train()
+            eval_dataset=val_dataset, data_collator=data_collator).train()
 
     trainer.save_model(config["save_path"])
 
