@@ -66,14 +66,14 @@ def train(config):
     trainer = Trainer(model=model, args=training_args, train_dataset=train_dataset,
             eval_dataset=val_dataset, data_collator=data_collator).train()
 
-    model.save_pretrained(config["save_path"])
+    model.save_pretrained(config["save_dir"])
 
     if torch.distributed.get_rank() == 0:
         if os.environ.get('DEEPSPEED_ZERO_STAGE', '0') != '3':
             EOS_ID = tokenizer("<|endoftext|>")["input_ids"][0]
             data = []
             for i in range(16):
-                prompt = val_dataset[i][3]
+                prompt = val_dataset[i]["text"]
                 inputs = tokenizer(prompt, return_tensors="pt")
                 input_ids = inputs["input_ids"].view(1, -1).cuda()
                 attention_mask = inputs["attention_mask"].view(1, -1).cuda()
