@@ -13,6 +13,8 @@ from torch.utils.data import DataLoader
 from transformers.deepspeed import HfDeepSpeedConfig
 import deepspeed
 
+import numpy as np
+
 
 class ModifiedTrainer(Trainer):
 
@@ -56,7 +58,7 @@ def train(config):
 
     # take top 100 examples
     dataset = dataset.select(range(100))
-    
+
     train_size = int(0.94 * len(dataset))
     train_dataset, val_dataset = random_split(dataset, [train_size, len(dataset) - train_size])
 
