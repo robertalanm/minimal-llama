@@ -35,7 +35,7 @@ def load_model(model_name):
     return model
 
 
-def generate(prompt, max_new_tokens=1, do_sample=True, top_k=4, top_p=0.92, num_return_sequences=1, pad_token_id=50256):
+def generate(prompt, max_new_tokens=3, do_sample=True, top_k=0, top_p=0.97, num_return_sequences=1, pad_token_id=50256):
     input_ids = tokenizer.encode(prompt, return_tensors='pt').to('cuda')
     output_token_id = model.generate(
                                     input_ids, 
