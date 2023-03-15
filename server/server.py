@@ -164,8 +164,8 @@ def main():
 
 if __name__ == '__main__':
     # model = load_model('robertmyers/bpt-sft')
-    model = load_model('/home/ubuntu/minimal-llama/models/bpt-instruct/checkpoint-12')
+    model = load_model('/home/ubuntu/minimal-llama/models/llama-7b-hf')
     # model = load_model('./bpt-sft-base')
-    tokenizer = LLaMATokenizer.from_pretrained('/home/ubuntu/openRLHF/models/hf_7B/tokenizer')
+    tokenizer = LLaMATokenizer.from_pretrained('/home/ubuntu/minimal-llama/models/llama-7b-hf')
 
     main()
