@@ -66,7 +66,7 @@ def train(config):
     trainer = Trainer(model=model, args=training_args, train_dataset=train_dataset,
             eval_dataset=val_dataset, data_collator=data_collator).train()
 
-    trainer.save_model(config["save_path"])
+    model.save_pretrained(config["save_path"])
 
     if torch.distributed.get_rank() == 0:
         if os.environ.get('DEEPSPEED_ZERO_STAGE', '0') != '3':
